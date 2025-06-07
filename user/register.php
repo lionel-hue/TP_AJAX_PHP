@@ -64,12 +64,13 @@
             <i class="bi bi-person-plus-fill"></i>
         </div>
         <h2 class="text-center mb-4">Créer un compte</h2>
-        <form method="post" action="./traitement.php">
+        <form method="post" action="./traitement.php" id="formulaire">
             <div class="mb-3">
                 <label for="firstname" class="form-label">Prénom</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                     <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Votre prénom" required>
+                    <div class="erreur" id="erreurPrenom"></div>
                 </div>
             </div>
             <div class="mb-3">
@@ -77,6 +78,7 @@
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                     <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Votre nom" required>
+                    <div class="erreur" id="erreurNom"></div>
                 </div>
             </div>
             <div class="mb-3">
@@ -84,6 +86,7 @@
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail" required>
+                    <div class="erreur" id="erreurEmail"></div>
                 </div>
             </div>
             <div class="mb-3">
@@ -91,6 +94,7 @@
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-lock"></i></span>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+                    <div class="erreur" id="erreurMotdepasse"></div>
                 </div>
             </div>
             <div class="mb-3">
@@ -98,6 +102,7 @@
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                     <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirmez le mot de passe" required>
+                    <div class="erreur" id="erreurConfirm_password"></div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary w-100 mb-2">S'inscrire</button>
@@ -107,5 +112,73 @@
             <a href="login.php" class="small text-primary">Se connecter</a>
         </div>
     </div>
+
+
+    <script>
+  document.getElementById("formulaire").addEventListener("submit", function(e) {
+    e.preventDefault(); // Empêche l'envoi automatique
+
+    // Récupérer les champs
+    const prenom = document.getElementById("firstname").value.trim();
+    const nom = document.getElementById("lastname").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const motdepasse = document.getElementById("password").value;
+    const confirmation = document.getElementById("password_confirm").value;
+
+    // Récupérer les zones d'erreur
+    const erreurPrenom = document.getElementById("erreurPrenom");
+    const erreurNom = document.getElementById("erreurNom");
+    const erreurEmail = document.getElementById("erreurEmail");
+    const erreurMotdepasse = document.getElementById("erreurMotdepasse");
+    const erreurConfirm = document.getElementById("erreurConfirm_password");
+
+    // Réinitialiser les messages d’erreur
+    erreurPrenom.textContent = "";
+    erreurNom.textContent = "";
+    erreurEmail.textContent = "";
+    erreurMotdepasse.textContent = "";
+    erreurConfirm.textContent = "";
+
+    let formulaireValide = true;
+
+    // Validation prénom (pas de chiffres)
+    if (/\d/.test(prenom)) {
+      erreurPrenom.textContent = "Le prénom ne doit pas contenir de chiffres.";
+      formulaireValide = false;
+    }
+
+    // Validation nom (pas de chiffres)
+    if (/\d/.test(nom)) {
+      erreurNom.textContent = "Le nom ne doit pas contenir de chiffres.";
+      formulaireValide = false;
+    }
+
+    // Validation email avec Regex
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(email)) {
+      erreurEmail.textContent = "L'adresse email n'est pas valide.";
+      formulaireValide = false;
+    }
+
+    // Validation mot de passe (au moins 8 caractères)
+    if (motdepasse.length < 8) {
+      erreurMotdepasse.textContent = "Le mot de passe doit contenir au moins 8 caractères.";
+      formulaireValide = false;
+    }
+
+    // Confirmation du mot de passe
+    if (motdepasse !== confirmation) {
+      erreurConfirm.textContent = "Les mots de passe ne correspondent pas.";
+      formulaireValide = false;
+    }
+
+    // Si tout est bon
+    if (formulaireValide) {
+      alert("Formulaire validé avec succès !");
+    
+    }
+  });
+</script>
+
 </body>
 </html>
