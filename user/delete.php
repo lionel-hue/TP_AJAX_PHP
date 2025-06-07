@@ -1,4 +1,5 @@
 <?php 
+include("../main/check-auth.php");
 require("../main/database.php");
 if( isset($_GET["id"]) )
 {

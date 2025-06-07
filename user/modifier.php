@@ -1,4 +1,5 @@
 <?php 
+include("../main/check-auth.php");
 include("../main/head.php");
 
 //Toujours, on se connecte a la bdd, d'abord

@@ -1,19 +1,14 @@
 <?php 
+session_start();
 include("../main/head.php");
 
 include("../main/database.php");
-
-//message d'erreur a mettre si email ou mot de passe n'est pas correct
-$error = "mot de passe ou email n'est pas correct!";
-
-//echo("hey");  operation de test
-
-if( isset($_POST["email"]) && isset($_POST["password"] ) )
+if( $_SERVER['REQUEST_METHOD'] === 'POST')
 {
     if( !empty($_POST["email"]) && !empty($_POST["password"]) )
     {
-        $email = strip_tags($_POST["email"]);
-        $password = $_POST["password"];
+        $email = trim($_POST["email"]?? '');
+        $password = $_POST["password"]?? '';
 
         try
         {
@@ -21,26 +16,40 @@ if( isset($_POST["email"]) && isset($_POST["password"] ) )
             $req->execute(['email' => $email]);
             $user = $req->fetch(PDO::FETCH_ASSOC);
             
-            //si user n'existe pas
-            if( !$user )
-            {
-                echo $error;
-            }else{
-                //user existe - ok, verifions mot de passe :
-                $est_mdpasse_vrai = password_verify( $password, $user["mot_de_passe"]);
-
-                if( $est_mdpasse_vrai == true )
-                {
-                    header("Location: ../main/users.php");
-                }else echo $error;
+           if (!$user || !password_verify($password, $user["mot_de_passe"])) {
+                $_SESSION['error'] = "Email ou mot de passe incorrect.";
+                header("Location: login.php");
+                exit;
             }
+
+            //  Connexion réussie
+            $_SESSION['auth'] = true;
+            $_SESSION['user'] = [
+                'id' => $user['id'],
+                'email' => $user['email'],
+                'prenom' => $user['prenom'],
+                'nom' => $user['nom']
+            ];
+
+            header("Location: ../main/users.php");
+            exit; 
+            
         }catch(PDOException $e){
-            echo "<script>alert(\"".$e->getMessage()."\")</script>";
+            $_SESSION['error'] = "Erreur serveur : " . $e->getMessage();
+            header("Location: login.php");
+            exit;
         }
 
-    }else echo "Erreur lors du login! ressayer plustard!";
+    }else{
+          $_SESSION['error'] = "Veuillez remplir tous les champs.";
+      header("Location: login.php");
+    exit ;
+    }
+    
 
-}else header("Location: login.php");
+}else {
+    header("Location: login.php");
+ }
 
 include("../main/footer.php");
 ?>

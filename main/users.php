@@ -1,4 +1,5 @@
 <?php 
+include("check-auth.php");
 include("../main/head.php");
 
 require("../main/database.php"); 
@@ -12,8 +13,9 @@ $users = $req->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="row justify-content-end mt-4 mb-3">
     <div class="col-md-3">
-        <a href="../user/register.php?email=<?php echo $_GET['email']?>" class="btn btn-primary">
-            Enregisrer un user
+       <a href="../user/register.php?email=<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '' ?>" class="btn btn-primary">
+
+            Enregistrer un user
         </a>
     </div>
 </div>
@@ -37,7 +39,7 @@ $users = $req->fetchAll(PDO::FETCH_ASSOC);
                 <td> <?php echo $user["email"] ?> </td>
                 <td>
                     <!--Ici on prepare la suppression et modification de chaque 'users' avec la balise a-->
-                    <a class="btn btn-danger" href="../user/delete.php?id=<?php echo $user["id"]?>#email=<?php echo $_GET['email'] ?>">supprimer</a>
+                    <a href="../user/delete.php?id=<?php echo $user["id"]?>#email=<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '' ?>" class="btn btn-danger">supprimer</a>
                     <a  class="btn btn-primary" href="../user/modifier.php?id=<?php echo $user["id"] ?>">modifier</a>
 
                 </td>

@@ -66,10 +66,20 @@
                 <i class="bi bi-list"></i>
             </button>
             <h1 class="h5 mb-0">Bienvenue sur le Dashboard</h1>
-            <div class="user-info">
+          <div class="user-info">
                 <img src="../asset/images/avatar.jpeg" alt="Avatar">
-                <span>Admin</span>
-                <a href="#" class="btn btn-outline-primary btn-sm">Déconnexion</a>
+                <span>
+                 <?php
+                    if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
+                        echo htmlspecialchars($_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']);
+                    } else {
+                        echo "Admin";
+                    }
+                    ?>
+             </span>
+
+                </span>
+                <a href="logout.php" class="btn btn-outline-primary btn-sm">Déconnexion</a>
             </div>
         </header>
         <main class="container py-4" id="dashboard-content">
