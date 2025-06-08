@@ -13,11 +13,9 @@ if( isset($_GET["id"]) )
     if(!empty($_GET["id"]))
     {
         $id = strip_tags($_GET["id"]);
-        $req = $pdo->prepare("SELECT * FROM Users WHERE id=:id");
+        $req = $pdo->prepare("SELECT * FROM Annonces WHERE id=:id");
         $req->execute(["id" => $id ]);
-        $user = $req->fetch(PDO::FETCH_ASSOC); 
-        // echo "foo bar";
-
+        $annonce = $req->fetch(PDO::FETCH_ASSOC);
     }
     else{
         echo "Erreur!";

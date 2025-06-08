@@ -18,31 +18,20 @@ $annonces = $req->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 <div class="col-md-12 m-2 row table-responsive">
+    <?php foreach($annonces as $annonce): ?>
+        <div>
+            <h1> <?php echo $annonce["titre"] ?> </h1>
+            <p> <?php echo $annonce["description"] ?> </p>
+            <img src="../uploads/<?php echo $annonce["image"]?>" width="30%" alt="." />
+            <br>
+            <br>
+            <div>
+                <a class="btn btn-danger" href="../annonce/delete.php?id=<?php echo $annonce["id"]?>">supprimer</a>
 
- 
-    <table class="table table-borderd table-striped">
-        <thead>
-            <td>ID</td>
-            <td>Nom</td>
-            <td>Prenom</td>
-            <td>Email</td>
-            <td>action</td>
-        </thead>
-        <!-- Au lieu d'un foreach -->
-        <?php foreach($users as $user): ?>
-            <tr>
-                <td> <?php echo $user["id"] ?> </td>
-                <td> <?php echo $user["nom"] ?> </td>
-                <td> <?php echo $user["prenom"] ?> </td>
-                <td> <?php echo $user["email"] ?> </td>
-                <td>
-                    <!--Ici on prepare la suppression et modification de chaque 'users' avec la balise a-->
-                    <a class="btn btn-danger" href="../user/delete.php?id=<?php echo $user["id"]?>#email=<?php echo $_GET['email'] ?>">supprimer</a>
-                    <a  class="btn btn-primary" href="../user/modifier.php?id=<?php echo $user["id"] ?>">modifier</a>
-
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </table>                
+                <a  class="btn btn-primary" href="../annonce/modifier.php?id=<?php echo $annonce["id"] ?>">modifier</a>
+            </div>
+        </div>
+        <br>
+    <?php endforeach; ?>
 </div>
 <?php include("../main/footer.php"); ?>

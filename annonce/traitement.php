@@ -79,7 +79,7 @@ if( isset( $_POST["titre"] ) && isset( $_POST["description"] ) && isset( $_FILES
             [
                 "titre"=> $titre,
                 "description" => $description, 
-                "image"=>$destination
+                "image"=>$filename
             ]
         );
 
