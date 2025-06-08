@@ -21,32 +21,40 @@ if( isset($_GET["id"]) )
         echo "Erreur!";
     }
 }else{
-    $email = $user['email'];
-    header("Location: ../main/users.php");
+    //$email = $user['email'];
+    header("Location: ../main/annonce.php");
 }
 
 //Traitement du formulaire de modification
-if(  isset( $_POST["id"] ) && isset( $_POST["nom"] ) && isset( $_POST["prenom"] ) && isset( $_POST["email"] ) ){
+if( isset( $_POST["titre"] ) && isset( $_POST["description"] ) && isset( $_FILES["i_mage"]) ){
 
-    $id = strip_tags($_POST["id"]);
-    $nom = strip_tags($_POST["nom"]);
-    $prenom = strip_tags($_POST["prenom"]);
-    $email = strip_tags($_POST["email"]);
+   $titre = strip_tags($_POST["titre"]);
+    $description = strip_tags($_POST["description"]);
 
-        $req = $pdo->prepare("UPDATE Users SET nom=:nom, prenom=:prenom, email=:email WHERE id=:id");
+    include("./code_de_gestion_d_image.php");
 
-        $stmt = $req->execute(["id"=> $id,"nom"=> $nom, "prenom" => $prenom, "email"=>$email]);
+    try{
+    
+        $req = $pdo->prepare("UPDATE Annonces SET titre=:titre, description=:description, image=:image WHERE id=:id");
+
+        $stmt = $req->execute(["id"=> $id,"titre"=> $titre, "description" => $description, "image"=>$filename]);
 
         if($stmt)
         {
             echo $success="Votre modification a ete bien effectue!<br>";
-            echo "<a href=\"../main/users.php\">retourner</a>";
+            echo "<a href=\"../main/annonce.php\">retourner</a>";
             exit();
         }else{
             echo $error="Une erreur lors de la modification de vos donnees!<br>";
-            echo "<a href=\"../main/users.php\">retourner</a>";
+            echo "<a href=\"../main/annonce.php\">retourner</a>";
             exit();
         }
+
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+
+        
 }
 ?>
 
@@ -89,24 +97,28 @@ if(  isset( $_POST["id"] ) && isset( $_POST["nom"] ) && isset( $_POST["prenom"] 
                         <?php endif; ?>
 
                         <form method="POST" action="" class="form-control">
-                            <input type="hidden" name="id" value="<?php echo $user['id'] ?>" >
+                            <input type="hidden" name="id" value="<?php echo $annonce['id'] ?>">
 
-                            <div class="form-group">
-                                <label for="nom">Nom :</label>
-                                <input type="text" name="nom" value="<?php echo $user['nom'] ?>" class ="form-control" required />
-                                
+                            <div class="mb-3">
+                                <label for="titre" class="form-label">Titre</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control" id="titre" name="titre" placeholder="le titre d'annonce"  value="<?php echo $annonce['titre'] ?>" required>
+                                </div>
+
+                                <label for="description" class="form-label">Description</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="text" class="form-control" id="description" name="description" placeholder="La description de l'annonce" value="<?php echo $annonce['description'] ?>" required>
+                                </div>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="prenom">Prenom :</label>
-                                <input type="text" name="prenom" value="<?php echo $user['prenom'] ?> " class ="form-control" required />
-                                
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" value=" <?php echo $user['email'] ?> " class ="form-control" required />
-                                
+                            <div class="mb-3">
+                                <label for="i_mage" class="form-label">L'image de l'annonce</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="file" class="form-control" id="i_mage" name="i_mage">
+                                </div>
                             </div>
 
                             <input type="submit" class="btn btn-primary" value="modifier" />
