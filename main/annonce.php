@@ -2,10 +2,10 @@
 include("../main/head.php");
 
 require("../main/database.php"); 
-$req = $pdo->query("SELECT * FROM Users");
-$users = $req->fetchAll(PDO::FETCH_ASSOC);
-//Afficher en format json les informations de la table
-// print_r(json_encode($users));
+$req = $pdo->query("SELECT * FROM Annonces");
+$annonces = $req->fetchAll(PDO::FETCH_ASSOC);
+//Afficher en format json les informations de la page
+// print_r(json_encode($annonces));
 // exit();
 ?>
 

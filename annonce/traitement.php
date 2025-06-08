@@ -49,26 +49,45 @@ if( isset( $_POST["titre"] ) && isset( $_POST["description"] ) && isset( $_FILES
     
     $filename = $base . "." . $pathinfo["extension"];
     $destination = __DIR__. "/../uploads/" .$filename;
+
+    //si une image existe deja dans le dossier d'image, au lieu d'ecraser
+    //l'image on cree un nouveau avec un nom legerement different
+    $i = 1;
+    while( file_exists($destination) ){
+        $filename = $base . "($i)." . $pathinfo["extension"];
+        $destination = __DIR__. "/../uploads/" .$filename;
+        
+        $i++;
+    }
     
     //si le televersement echoue...
     echo !move_uploaded_file($_FILES["i_mage"]["tmp_name"], $destination) ?
      "<script>alert('Cannot move uploaded file')</script>":"";
 
-    print_r($_FILES["i_mage"]); 
-    echo $destination;
-    exit();
+
+    //le televersement de l'image a  reussi a ce point
+    // print_r($_FILES["i_mage"]); 
+    // echo $destination; //chemin absolu
+    // echo $filename; //nom de l'image
+    // exit();
 
 
     try{
-        $req = $pdo->prepare("INSERT INTO Users(nom, prenom, email, mot_de_passe) VALUES(:nom, :prenom, :email, :mot_de_passe)");
+        $req = $pdo->prepare("INSERT INTO Annonces(titre, description, image) VALUES(:titre, :description, :image)");
 
-        $req->execute(["nom"=> $nom, "prenom" => $prenom, "email"=>$email, "mot_de_passe" => $mot_de_passe]);
+        $req->execute(
+            [
+                "titre"=> $titre,
+                "description" => $description, 
+                "image"=>$destination
+            ]
+        );
 
-        header("Location: ../main/users.php");
+        header("Location: ../main/annonce.php");
 
     }catch(PDOException $e){
         echo $e->getMessage();
     }
 }
-else header("Location: ../main/users.php");
+else header("Location: ../main/annonce.php");
 ?>
