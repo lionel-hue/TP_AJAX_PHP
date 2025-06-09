@@ -37,7 +37,14 @@ if( isset( $_POST["titre"] ) && isset( $_POST["description"] ) && isset( $_FILES
     
         $req = $pdo->prepare("UPDATE Annonces SET titre=:titre, description=:description, image=:image WHERE id=:id");
 
-        $stmt = $req->execute(["id"=> $id,"titre"=> $titre, "description" => $description, "image"=>$filename]);
+        $stmt = $req->execute(
+            [
+                "id"=> $id,
+                "titre"=> $titre, 
+                "description" => $description, 
+                "image"=>$filename
+            ]
+        );
 
         if($stmt)
         {
@@ -96,7 +103,7 @@ if( isset( $_POST["titre"] ) && isset( $_POST["description"] ) && isset( $_FILES
                             </div>
                         <?php endif; ?>
 
-                        <form method="POST" action="" class="form-control">
+                        <form method="POST" action="" class="form-control" enctype="multipart/form-data">
                             <input type="hidden" name="id" value="<?php echo $annonce['id'] ?>">
 
                             <div class="mb-3">
