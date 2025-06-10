@@ -116,7 +116,7 @@
 
     <script>
   document.getElementById("formulaire").addEventListener("submit", function(e) {
-    e.preventDefault(); // Empêche l'envoi automatique
+    // e.preventDefault(); // Empêche l'envoi automatique
 
     // Récupérer les champs
     const prenom = document.getElementById("firstname").value.trim();
