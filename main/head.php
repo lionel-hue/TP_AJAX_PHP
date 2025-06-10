@@ -19,7 +19,7 @@
     <nav class="sidebar d-flex flex-column position-fixed" id="sidebar">
         <div class="sidebar-header d-flex align-items-center">
             <i class="bi bi-lightning-charge-fill"></i>
-            <span>MonApp</span>
+            <span>UConnect</span>
             <button class="sidebar-toggler d-none d-lg-inline" id="sidebarCollapse" title="Réduire le menu">
                 <i class="bi bi-chevron-double-left"></i>
             </button>
@@ -32,15 +32,10 @@
             <li class="nav-item">
                 <a href="./index.php" class="nav-link <?php echo ($currentPage === 'index.php') ? 'active' : ''; ?>">
                     <i class="bi bi-house-door"></i>
-                    <span>Accueil</span>
+                    <span>Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="./tests.php" class="nav-link <?php echo ($currentPage === 'tests.php') ? 'active' : ''; ?>">
-                    <i class="bi bi-bar-chart"></i>
-                    <span>Statistiques</span>
-                </a>
-            </li>
+            
             <li class="nav-item">
             <a href="./users.php" class="nav-link <?php echo ($currentPage === 'users.php') ? 'active' : ''; ?>">
                     <i class="bi bi-people"></i>
@@ -48,10 +43,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="./parametres.php"
+                <a href="./annonce.php"
                     class="nav-link <?php echo ($currentPage === 'parametres.php') ? 'active' : ''; ?>">
                     <i class="bi bi-gear"></i>
-                    <span>Paramètres</span>
+                    <span>Annonces</span>
                 </a>
             </li>
         </ul>

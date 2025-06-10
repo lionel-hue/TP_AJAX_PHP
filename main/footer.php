@@ -1,6 +1,6 @@
 </main>
 </div>
-<script src="assets/js/js/bootstrap.js"></script>
+<script src="../asset/js/bootstrap.js"></script>
 <script>    
     // Sidebar collapse (desktop)
     document.getElementById('sidebarCollapse').addEventListener('click', function () {
